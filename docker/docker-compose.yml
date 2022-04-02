@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  deluge:
+    image: linuxserver/deluge:latest
+    container_name: deluge
+    restart: unless-stopped
+    network_mode: "host"
+    ports:
+      - 8112:8112
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+    volumes:
+      - /home/media/deluge/config:/config
+      - ${PATH_MEDIA}:/downloads
+      
+  plex:
+    image: linuxserver/plex:latest
+    container_name: plex
+    restart: unless-stopped
+    network_mode: "host"
+    ports:
+      - 32400:32400
+    environment:
+      - VERSION=latest
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+    volumes:
+      - /home/media/config:/config
+      - ${PATH_MEDIA}:/home/media/data
